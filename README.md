@@ -102,7 +102,7 @@ KiCad schematic, PCB layout, and Gerber files are in the hardware/ directory.
 
 ## Repository Structure
 
-'''
+```
 spectrum-analyzer/
 ├── firmware/
 │   └── spectrum_analyzer.ino
@@ -115,7 +115,7 @@ spectrum-analyzer/
 │   ├── (photos)
 │   └── (videos)
 └── README.md
-'''
+```
 
 ---
 
