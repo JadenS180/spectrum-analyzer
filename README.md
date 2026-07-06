@@ -1,6 +1,6 @@
 # ESP32 Audio Spectrum Analyzer
 
-A real-time audio spectrum analyzer built on the ESP32, featuring a custom-designed PCB. Captures audio via an I2S MEMS microphone, runs FFT processing on-chip, and displays a live 16-bar frequency spectrum on an OLED display. All components were hand-soldered onto a custom PCB manufactured by JLCPCB.
+A real-time audio spectrum analyzer built on the ESP32, featuring a custom-designed PCB. Captures audio via an I2S MEMS microphone, runs FFT processing on-chip, and displays a live 16-bar frequency spectrum on an OLED display.
 
 ---
 
@@ -36,6 +36,10 @@ https://github.com/JadenS180/spectrum-analyzer/raw/main/media/spectrum-DemoQuiet
 | ![OLED Front](media/spectrum-OLED.JPG) | ![OLED Back](media/spectrum-OLEDback.JPG) |
 | SSD1306 OLED (front) | SSD1306 OLED (back) |
 
+### PCB
+![PCB Front](media/PCB_1.JPG)
+![PCB Back](media/PCB_2.JPG)
+
 ---
 
 ## Features
@@ -45,7 +49,7 @@ https://github.com/JadenS180/spectrum-analyzer/raw/main/media/spectrum-DemoQuiet
 - Hann windowing to reduce spectral leakage
 - Peak hold indicators on each bar
 - DC/low-frequency noise suppression via bin offset
-- Fully custom 2-layer PCB designed in KiCad and manufactured by JLCPCB
+- Custom 2-layer PCB designed in KiCad and manufactured by JLCPCB
 
 ---
 
@@ -90,9 +94,7 @@ Written in Arduino C++ using the Espressif ESP32 package (v3.3.10).
 
 ## PCB Design
 
-Designed in KiCad. The board is a 2-layer FR-4 PCB with a filled GND copper pour on F.Cu and a keep-out zone over the ESP32 antenna. Manufactured by JLCPCB. All components were hand-soldered onto the finished board.
-
-*Photos of the assembled PCB coming soon.*
+Designed in KiCad. The board is a 2-layer FR-4 PCB with a filled GND copper pour on F.Cu and a keep-out zone over the ESP32 antenna. Manufactured by JLCPCB.
 
 KiCad schematic, PCB layout, and Gerber files are in the hardware/ directory.
 
@@ -100,7 +102,7 @@ KiCad schematic, PCB layout, and Gerber files are in the hardware/ directory.
 
 ## Repository Structure
 
-```
+\`\`\`
 spectrum-analyzer/
 ├── firmware/
 │   └── spectrum_analyzer.ino
@@ -113,7 +115,7 @@ spectrum-analyzer/
 │   ├── (photos)
 │   └── (videos)
 └── README.md
-```
+\`\`\`
 
 ---
 
