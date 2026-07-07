@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Spectrum Analyzer</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: monospace;
+      color: #00ff88;
+    }
+    h1 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+    canvas {
+      border: 1px solid #00ff8833;
+    }
+    #status {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <h1>ESP32 Spectrum Analyzer</h1>
+  <canvas id="canvas" width="800" height="300"></canvas>
+  <div id="status">Connecting...</div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const status = document.getElementById('status');
+    const NUM_BARS = 16;
+    const BAR_WIDTH = canvas.width / NUM_BARS;
+    const BAR_GAP = 4;
+
+    let bars = new Array(NUM_BARS).fill(0);
+    let peaks = new Array(NUM_BARS).fill(0);
+
+    const ws = new WebSocket('ws://192.168.1.65:81');
+
+    ws.onopen = () => {
+      status.textContent = 'Connected to ESP32';
+    };
+
+    ws.onclose = () => {
+      status.textContent = 'Disconnected';
+    };
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      bars = data.bars;
+    };
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < NUM_BARS; i++) {
+        const barHeight = bars[i] * canvas.height;
+        const x = i * BAR_WIDTH + BAR_GAP / 2;
+        const y = canvas.height - barHeight;
+        const w = BAR_WIDTH - BAR_GAP;
+
+        // Gradient color
+        const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
+        gradient.addColorStop(0, '#00ff88');
+        gradient.addColorStop(0.6, '#00ccff');
+        gradient.addColorStop(1, '#ff0066');
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(x, y, w, barHeight);
+
+        // Peak hold
+        if (bars[i] > peaks[i]) {
+          peaks[i] = bars[i];
+        } else {
+          peaks[i] *= 0.98;
+        }
+
+        const peakY = canvas.height - peaks[i] * canvas.height;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(x, peakY, w, 2);
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+</html>
