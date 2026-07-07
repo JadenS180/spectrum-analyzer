@@ -1,6 +1,6 @@
 # ESP32 Audio Spectrum Analyzer
 
-A real-time audio spectrum analyzer built on the ESP32, featuring a custom-designed PCB. Captures audio via an I2S MEMS microphone, runs FFT processing on-chip, and displays a live 16-bar frequency spectrum on an OLED display.
+A real-time audio spectrum analyzer built on the ESP32, featuring a custom-designed PCB. Captures audio via an I2S MEMS microphone, runs FFT processing on-chip, displays a live 16-bar frequency spectrum on an OLED display, and streams real-time FFT data over WiFi to a browser-based visualizer via WebSockets.
 
 ---
 
@@ -13,6 +13,16 @@ https://github.com/JadenS180/spectrum-analyzer/raw/main/media/spectrum-DemoNoise
 **Analyzer in a quiet environment:**
 
 https://github.com/JadenS180/spectrum-analyzer/raw/main/media/spectrum-DemoQuiet.MOV
+
+---
+
+## Web Dashboard
+
+### Reacting to noise
+![Dashboard Noise](media/spectrum-dashboard_noise.png)
+
+### Quiet environment
+![Dashboard Quiet](media/spectrum-dashboard_quiet.png)
 
 ---
 
@@ -50,6 +60,7 @@ https://github.com/JadenS180/spectrum-analyzer/raw/main/media/spectrum-DemoQuiet
 - Peak hold indicators on each bar
 - DC/low-frequency noise suppression via bin offset
 - Custom 2-layer PCB designed in KiCad and manufactured by JLCPCB
+- WiFi streaming via WebSockets to a browser-based canvas visualizer
 
 ---
 
@@ -83,12 +94,21 @@ Written in Arduino C++ using the Espressif ESP32 package (v3.3.10).
 - [arduinoFFT](https://github.com/kosme/arduinoFFT)
 - [Adafruit SSD1306](https://github.com/adafruit/Adafruit_SSD1306)
 - [Adafruit GFX Library](https://github.com/adafruit/Adafruit-GFX-Library)
+- [WebSockets](https://github.com/Links2004/arduinoWebSockets)
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson)
 
 **To flash:**
 1. Open firmware/spectrum_analyzer.ino in Arduino IDE
-2. Select board: ESP32 Dev Module under Espressif Systems
-3. Connect ESP32 via USB and select the correct port
-4. Upload
+2. Set your WiFi credentials in the firmware
+3. Select board: ESP32 Dev Module under Espressif Systems
+4. Connect ESP32 via USB and select the correct port
+5. Upload
+
+---
+
+## Web Dashboard
+
+The dashboard is a single HTML file in the `dashboard/` directory. Open it in a browser while the ESP32 is powered and connected to WiFi. Update the WebSocket IP in `index.html` to match your ESP32's IP address.
 
 ---
 
@@ -111,6 +131,8 @@ spectrum-analyzer/
 │   ├── spectrum_analyzer.kicad_sch
 │   ├── spectrum_analyzer.kicad_pcb
 │   └── gerbers/
+├── dashboard/
+│   └── index.html
 ├── media/
 │   ├── (photos)
 │   └── (videos)
